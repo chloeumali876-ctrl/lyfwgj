@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💖 Japan Trip 💖</title>
+    <style>
+        :root {
+            --primary-pink: #ff69b4;
+            --light-pink: #ffe4e1;
+            --deep-pink: #d81b60;
+            --soft-bg: #fff0f5;
+            --card-bg: #ffffff;
+            --text-dark: #4a2e35;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--soft-bg);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+        header {
+            background: linear-gradient(135deg, #ffb6c1, var(--primary-pink));
+            color: white;
+            text-align: center;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.2);
+            margin-bottom: 25px;
+        }
+        header h1 { margin: 0; font-size: 2.2rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.1); }
+        header p { font-size: 1.1rem; margin-top: 8px; }
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.15);
+            border: 2px solid var(--light-pink);
+        }
+        .card-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .card-header-flex h3 { margin: 0; color: var(--deep-pink); font-size: 1.3rem; }
+        
+        /* Toggle Switch Styling */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--deep-pink);
+            font-size: 0.95rem;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .3s;
+            border-radius: 26px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--primary-pink); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+        th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #fce4ec; }
+        th { background-color: var(--light-pink); color: var(--deep-pink); font-weight: 600; }
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid var(--primary-pink);
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: #fff9fb;
+            box-sizing: border-box;
+        }
+        input[type="number"] { text-align: right; width: 130px; }
+        input:focus { outline: none; border-color: var(--deep-pink); background-color: #ffffff; }
+        .total-row { font-weight: bold; background-color: var(--soft-bg); color: var(--deep-pink); font-size: 1.1rem; }
+        .banner {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+        .stat-box {
+            background: var(--light-pink);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 2px solid var(--primary-pink);
+            text-align: center;
+            flex: 1;
+        }
+        .stat-box h3 { margin: 0; color: var(--deep-pink); font-size: 1.8rem; }
+        .stat-box p { margin: 5px 0 0 0; font-weight: 600; color: var(--text-dark); font-size: 0.95rem; }
+        .notes-column { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>💖 Japan Trip 💖</h1>
+            <p>4 Days in Tokyo & Osaka • December 2029 • Target Budget: ₱300,000</p>
+        </header>
+
+        <!-- Interactive Budget Calculator -->
+        <div class="card">
+            <div class="banner">
+                <div class="stat-box">
+                    <h3 id="grand-total-banner">₱300,000</h3>
+                    <p>Total Calculated Expense Cost</p>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Item / Description (Editable)</th>
+                        <th>Cost (₱)</th>
+                    </tr>
+                </thead>
+                <tbody id="expense-tbody">
+                    <!-- Populated via script -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 36-Month Editable Savings Tracker -->
+        <div class="card">
+            <div class="card-header-flex">
+                <h3>Savings Tracker</h3>
+                <div class="switch-container">
+                    <span>Show Notes</span>
+                    <label class="switch">
+                        <input type="checkbox" id="toggle-notes">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="banner">
+                <div class="stat-box">
+                    <h3 id="total-saved-display">₱0</h3>
+                    <p>Total Actual Saved So Far</p>
+                </div>
+                <div class="stat-box">
+                    <h3 id="target-display">₱300,000</h3>
+                    <p>Target Goal</p>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Month # & Name</th>
+                        <th>Amount Saved (₱)</th>
+                        <th class="notes-header notes-column">Optional Notes</th>
+                    </tr>
+                </thead>
+                <tbody id="savings-tbody">
+                    <!-- Populated via script -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const initialExpenses = [
+            { category: "Flights", desc: "Cebu Pacific Open-Jaw (MNL-TYO / KIX-MAN) + 25kg Bags", cost: 20000 },
+            { category: "Accommodation", desc: "Tora Hotel Ueno (Tokyo - 1 Night)", cost: 6000 },
+            { category: "Accommodation", desc: "Chuo Ward Hotel (Osaka - 2 Nights)", cost: 21500 },
+            { category: "Transport", desc: "Shinkansen Bullet Train (Tokyo → Osaka)", cost: 14000 },
+            { category: "Transport", desc: "Skyliner, Subways & Nankai Express", cost: 8000 },
+            { category: "Theme Parks", desc: "Tokyo Disneyland & USJ Passports (2 Pax)", cost: 26000 },
+            { category: "Food & Dining", desc: "Wagyu, Sushi & Dotonbori Street Food (4 Days)", cost: 35000 },
+            { category: "Fees & Gear", desc: "PH Travel Tax, Visas & Winter Gear", cost: 15500 },
+            { category: "Shopping", desc: "Maximized Combined Shopping Allowance", cost: 153500 }
+        ];
+
+        const months = [
+            "November 2026", "December 2026", "January 2027", "February 2027",
+            "March 2027", "April 2027", "May 2027", "June 2027",
+            "July 2027", "August 2027", "September 2027", "October 2027",
+            "November 2027", "December 2027", "January 2028", "February 2028",
+            "March 2028", "April 2028", "May 2028", "June 2028",
+            "July 2028", "August 2028", "September 2028", "October 2028",
+            "November 2028", "December 2028", "January 2029", "February 2029",
+            "March 2029", "April 2029", "May 2029", "June 2029",
+            "July 2029", "August 2029", "September 2029", "October 2029"
+        ];
+
+        function calcExpenses() {
+            let costInputs = document.querySelectorAll('.expense-cost');
+            let sum = 0;
+            costInputs.forEach((inp, idx) => {
+                let val = parseFloat(inp.value) || 0;
+                sum += val;
+                localStorage.setItem('exp_cost_' + idx, inp.value);
+            });
+
+            document.querySelectorAll('.expense-desc').forEach((inp, idx) => {
+                localStorage.setItem('exp_desc_' + idx, inp.value);
+            });
+
+            let formatted = '₱' + sum.toLocaleString();
+            document.getElementById('grand-total-banner').innerText = formatted;
+            document.getElementById('grand-total-table').innerText = formatted;
+        }
+
+        function calcSavings() {
+            let savInputs = document.querySelectorAll('.savings-input');
+            let statusInputs = document.querySelectorAll('.status-input');
+            let sum = 0;
+
+            savInputs.forEach((inp, idx) => {
+                sum += parseFloat(inp.value) || 0;
+                localStorage.setItem('sav_' + idx, inp.value);
+            });
+
+            statusInputs.forEach((inp, idx) => {
+                localStorage.setItem('status_' + idx, inp.value);
+            });
+
+            document.getElementById('total-saved-display').innerText = '₱' + sum.toLocaleString();
+        }
+
+        function toggleNotesColumn() {
+            let showNotes = document.getElementById('toggle-notes').checked;
+            localStorage.setItem('show_notes_toggle', showNotes ? 'true' : 'false');
+            
+            let cols = document.querySelectorAll('.notes-column');
+            cols.forEach(el => {
+                el.style.display = showNotes ? 'table-cell' : 'none';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Build Expense Table
+            let expTbody = document.getElementById('expense-tbody');
+            let expHtml = '';
+            initialExpenses.forEach((item, idx) => {
+                let savedDesc = localStorage.getItem('exp_desc_' + idx);
+                let descVal = (savedDesc !== null) ? savedDesc : item.desc;
+
+                let savedCost = localStorage.getItem('exp_cost_' + idx);
+                let costVal = (savedCost !== null) ? savedCost : item.cost;
+
+                expHtml += `
+                    <tr>
+                        <td>${item.category}</td>
+                        <td><input type="text" class="expense-desc" data-id="${idx}" value="${descVal}"></td>
+                        <td><input type="number" class="expense-cost" data-id="${idx}" value="${costVal}"></td>
+                    </tr>
+                `;
+            });
+            expHtml += `
+                <tr class="total-row">
+                    <td colspan="2">OVERALL TOTAL TRIP BUDGET</td>
+                    <td id="grand-total-table">₱300,000</td>
+                </tr>
+            `;
+            expTbody.innerHTML = expHtml;
+
+            // Expense Listeners
+            document.querySelectorAll('.expense-cost, .expense-desc').forEach(inp => {
+                inp.addEventListener('input', calcExpenses);
+                inp.addEventListener('keyup', calcExpenses);
+                inp.addEventListener('change', calcExpenses);
+            });
+            calcExpenses();
+
+            // Build Savings Table
+            let savTbody = document.getElementById('savings-tbody');
+            let savHtml = '';
+
+            months.forEach((m, idx) => {
+                let savedAmt = localStorage.getItem('sav_' + idx);
+                let amtVal = (savedAmt !== null) ? savedAmt : 0;
+
+                let savedStatus = localStorage.getItem('status_' + idx);
+                let statusVal = (savedStatus !== null) ? savedStatus : '';
+
+                savHtml += `
+                    <tr>
+                        <td>Month ${idx + 1} (${m})</td>
+                        <td><input type="number" class="savings-input" data-id="${idx}" value="${amtVal}"></td>
+                        <td class="notes-column"><input type="text" class="status-input" data-id="${idx}" value="${statusVal}" placeholder="Optional note..."></td>
+                    </tr>
+                `;
+            });
+
+            savTbody.innerHTML = savHtml;
+
+            // Restore Toggle state from localStorage
+            let savedToggle = localStorage.getItem('show_notes_toggle');
+            let toggleEl = document.getElementById('toggle-notes');
+            if (savedToggle === 'true') {
+                toggleEl.checked = true;
+            } else {
+                toggleEl.checked = false;
+            }
+            toggleNotesColumn();
+
+            toggleEl.addEventListener('change', toggleNotesColumn);
+
+            // Savings Listeners
+            document.querySelectorAll('.savings-input, .status-input').forEach(inp => {
+                inp.addEventListener('input', calcSavings);
+                inp.addEventListener('keyup', calcSavings);
+                inp.addEventListener('change', calcSavings);
+            });
+            calcSavings();
+        });
+    </script>
+</body>
+</html>
